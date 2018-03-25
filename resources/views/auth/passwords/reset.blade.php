@@ -5,33 +5,25 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Admin Login</div>
+                <div class="card-header">Reset Password</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.login') }}">
+                    <form method="POST" action="{{ route('password.request') }}">
                         @csrf
-	                    @if (session('error'))
-		                    <span class="invalid-feedback">
-                                        <strong>{{ session('error') }}</strong>
-                                    </span>
-	                    @endif
+
+                        <input type="hidden" name="token" value="{{ $token }}">
+
                         <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email or old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-
-	                            @if (session('error'))
-		                            <span class="invalid-feedback">
-                                        <strong>{{ session('error') }}</strong>
-                                    </span>
-	                            @endif
                             </div>
                         </div>
 
@@ -50,24 +42,23 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" required>
+
+                                @if ($errors->has('password_confirmation'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Login
+                                    Reset Password
                                 </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
                             </div>
                         </div>
                     </form>
